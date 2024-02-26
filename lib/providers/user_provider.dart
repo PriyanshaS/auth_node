@@ -11,7 +11,7 @@ void setUser(String user){
    _user  = json.decode(user);
   notifyListeners();
 }
-void setUserFromModel(){
+void setUserFromModel(User user){
   _user = user;
   notifyListeners();
 }

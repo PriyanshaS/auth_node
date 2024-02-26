@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:node_auth/screens/signup.dart';
+import 'package:node_auth/services/auth_services.dart';
 
 
 class Login extends StatefulWidget {
@@ -14,82 +15,77 @@ class _LoginState extends State<Login> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthService authService = AuthService();
 
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
+  void loginUser(){
+    authService.signInUser(context: context, email: emailController.text, password: passwordController.text);
   }
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Log In') ,
+        appBar: AppBar(title: Text('LOG IN') ,
       centerTitle: true, 
-      backgroundColor: Colors.purple[200] ,
+     
       automaticallyImplyLeading: false,) ,
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 40,
+                ),
+              TextField(
+                controller: emailController,
+                cursorColor: Colors.white,
+            
+                decoration: InputDecoration(border :OutlineInputBorder() , labelText: 'Email'),
               ),
-            TextField(
-              controller: emailController,
-              cursorColor: Colors.white,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            SizedBox(height: 4),
-            TextField(
-              controller: passwordController,
-              textInputAction: TextInputAction.done,
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
+              SizedBox(height: 20),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(border:OutlineInputBorder(),labelText: 'Password'),
+                obscureText: true,
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              ElevatedButton.icon(
                 
-              },
-              icon: Icon(
-                Icons.lock_open,
-                size: 32,
+                onPressed:loginUser,
+                icon: Icon(
+                  Icons.lock_open,
+                  color: Colors.grey[500],
+                  size: 32,
+                ),
+                label: Text(
+                  'LOG IN',
+                  style: TextStyle(fontSize: 24 , color: Colors.grey[500]),
+                ),
+                style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(50),shape: BeveledRectangleBorder(),
+                backgroundColor: Colors.black),
               ),
-              label: Text(
-                'Sign In',
-                style: TextStyle(fontSize: 24),
-              ),
-              style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(50)),
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            GestureDetector(
-              child: Text('Forgot Password? ',
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: 20,
-              ),
+              SizedBox(
+                height: 24,
               ),
               
-            )
-,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              
-              children: [
-              Text('No Account?'),
-              GestureDetector(child: Text('Sign Up'),
-              onTap: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup(),));
-              },),
-            ],)
-          ],
+        
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                
+                children: [
+                Text('No Account?  '),
+                GestureDetector(child: Text('SIGN UP'),
+                onTap: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup(),));
+                },),
+              ],)
+            ],
+          ),
         ),
       ),
     );
